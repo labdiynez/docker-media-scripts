@@ -1,5 +1,5 @@
 # Dependency setup stage
-FROM python:3.11-slim as python-reqs
+FROM python:3.13.5-slim AS python-reqs
 
 # Fetch requirements.txt from GitHub
 ADD https://raw.githubusercontent.com/chazlarson/Media-Scripts/main/requirements.txt /requirements.txt
@@ -10,17 +10,17 @@ RUN apt-get update; \
     pip3 install --no-cache-dir -r requirements.txt
 
 # Main image stage
-FROM python:3.11-slim
+FROM python:3.13.5-slim
 
 # Metadata labels
-LABEL maintainer="CBRHerms" \
-      description="docker-media-scripts" \
-      org.opencontainers.image.source="https://github.com/cbrherms/docker-media-scripts" \
-      org.opencontainers.image.authors="CBRHerms" \
-      org.opencontainers.image.title="docker-media-scripts"
+LABEL maintainer="AiHoshino" \
+      description="media-scripts" \
+      org.opencontainers.image.source="https://github.com/labdiynez/docker-media-scripts" \
+      org.opencontainers.image.authors="AiHoshino" \
+      org.opencontainers.image.title="media-scripts"
 
 # Copy Python packages from python-reqs stage
-COPY --from=python-reqs /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=python-reqs /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
 
 # Set default configuration directory
 ARG CONFIG_DIR=/config
@@ -54,3 +54,4 @@ RUN groupadd -g 99 dockeruser; \
 
 # Entrypoint script to start the container
 ENTRYPOINT ["bash", "/entrypoint.sh"]
+
